@@ -1,5 +1,6 @@
 import React from 'react';
 import './CareerOpportunities.css';
+import { Link } from 'react-router-dom';
 
 const CareerOpportunities = () => {
   return (
@@ -27,31 +28,17 @@ const CareerOpportunities = () => {
           <div className="job-title">IT Officer- Full Stack Developer</div>
           <div className="job-company">	Dana Group of Companies</div>
           <div className="job-location">Lagos</div>
-          <button>VIEW / APPLY</button>
+          <Link to="/job-application" className="apply-button">
+            VIEW / APPLY
+          </Link>
         </div>
         <div className="job-item">
           <div className="job-title">IT Officer- Full Stack Developer</div>
           <div className="job-company">	Dana Group of Companies</div>
           <div className="job-location">Lagos</div>
-          <button>VIEW / APPLY</button>
-        </div>
-        <div className="job-item">
-          <div className="job-title">IT Officer- Full Stack Developer</div>
-          <div className="job-company">	Dana Group of Companies</div>
-          <div className="job-location">Lagos</div>
-          <button>VIEW / APPLY</button>
-        </div>
-        <div className="job-item">
-          <div className="job-title">IT Officer- Full Stack Developer</div>
-          <div className="job-company">	Dana Group of Companies</div>
-          <div className="job-location">Lagos</div>
-          <button>VIEW / APPLY</button>
-        </div>
-        <div className="job-item">
-          <div className="job-title">IT Officer- Full Stack Developer</div>
-          <div className="job-company">	Dana Group of Companies</div>
-          <div className="job-location">Lagos</div>
-          <button>VIEW / APPLY</button>
+          <Link to="/job-application" className="apply-button">
+            VIEW / APPLY
+          </Link>
         </div>
       </div>
 

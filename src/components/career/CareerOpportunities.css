@@ -87,7 +87,7 @@
     color: white;
   }
   
-  .job-item button {
+  .job-item .apply-button {
     background-color: #2b2d81;
     color: white;
     border: none;
