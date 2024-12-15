@@ -1,0 +1,129 @@
+/* General Styles */
+.career-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Header Section */
+  .career-header {
+    text-align: center;
+    background-color: #2b2d81;
+    color: #ffffff;
+    padding: 50px 0 0 ;
+    height: 180px;
+  }
+  
+  .career-header h1 {
+    margin: 0;
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.1;
+  }
+  
+  .career-header p {
+    margin: 10px 0 0;
+    font-size: 13px;
+  }
+  
+  /* Filter Section */
+  .filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3d8d8;
+    width: 74%;
+    margin: 0 auto;
+    padding: 10px 80px;
+    height: 80px;
+    margin-top: -50px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .filter-section span {
+    font-weight: bold;
+  }
+  
+  .filter-options span {
+    margin: 0 10px;
+  }
+
+  .filter-options {
+    display: flex;
+    gap: 100px;
+  }
+
+  .filter-options hr {
+    margin-inline: -10px;
+ }
+  
+  .search-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Job Listings */
+  .job-listings {
+    margin: 0 auto;
+    width: 85%;
+  }
+  
+  .job-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: 1px solid #ccc; */
+    padding: 15px 0;
+  }
+  
+  .job-item.highlight {
+    background-color: #2b2d81;
+    color: white;
+  }
+  
+  .job-item button {
+    background-color: #2b2d81;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .join-team {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 30px 100px;
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center; /* Centers the items vertically */
+    justify-content: space-between; /* Ensures spacing between h2 and button */
+  }
+  
+  .join-team h2 {
+    color: #2b2d81;
+  }
+  
+  .join-team p {
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  
+  .join-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px; 
+  }
+  
+  
