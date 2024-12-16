@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const getEndpoint = "/jobs/getJob";
 const submitEndpoint = "/job-applications/apply";
-const baseUrl = 'https://danacareeerapi.onrender.com';
+const baseUrl = 'http://localhost:5000';
 
 const JobApplicationForm = () => {
   const { id } = useParams();
@@ -28,7 +28,6 @@ const JobApplicationForm = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Fetch job details
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
@@ -42,6 +41,15 @@ const JobApplicationForm = () => {
 
     fetchJobDetails();
   }, [id]);
+
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,16 +67,27 @@ const JobApplicationForm = () => {
     setError('');
     setSuccessMessage('');
 
-    const payload = new FormData();
-    Object.keys(formData).forEach((key) => {
-      payload.append(key, formData[key]);
-    });
-    payload.append('jobId', id);
-
     try {
+      const resumeBase64 = formData.resumeCv
+        ? await fileToBase64(formData.resumeCv)
+        : null;
+      const coverBase64 = formData.coverLetter
+        ? await fileToBase64(formData.coverLetter)
+        : null;
+
+      const payload = {
+        ...formData,
+        resumeCv: resumeBase64,
+        coverLetter: coverBase64,
+        jobId: id,
+      };
+
       const response = await fetch(`${baseUrl}${submitEndpoint}`, {
         method: 'POST',
-        body: payload,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
