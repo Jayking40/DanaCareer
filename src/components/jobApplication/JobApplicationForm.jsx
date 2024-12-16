@@ -2,14 +2,33 @@ import React, { useEffect, useState } from 'react';
 import './JobApplicationForm.css';
 import { useParams } from 'react-router-dom';
 
-const getEndpoint = "/jobs"; 
-const baseUrl = 'http://localhost:5000';
+const getEndpoint = "/jobs";
+const submitEndpoint = "/job-applications";
+const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const JobApplicationForm = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    educationalQualification: '',
+    previousIndustryExperience: '',
+    preferredLocation: '',
+    noticePeriodDays: '',
+    yearsOfExperience: '',
+    salaryExpectation: '',
+    resumeCv: null,
+    coverLetter: null,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-
+  // Fetch job details
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
@@ -23,6 +42,63 @@ const JobApplicationForm = () => {
 
     fetchJobDetails();
   }, [id]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData({ ...formData, [name]: files[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+    setSuccessMessage('');
+
+    const payload = new FormData();
+    Object.keys(formData).forEach((key) => {
+      payload.append(key, formData[key]);
+    });
+    payload.append('jobId', id);
+
+    try {
+      const response = await fetch(`${baseUrl}${submitEndpoint}`, {
+        method: 'POST',
+        body: payload,
+      });
+
+      if (response.ok) {
+        setSuccessMessage('Application submitted successfully!');
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          address: '',
+          educationalQualification: '',
+          previousIndustryExperience: '',
+          preferredLocation: '',
+          noticePeriodDays: '',
+          yearsOfExperience: '',
+          salaryExpectation: '',
+          resumeCv: null,
+          coverLetter: null,
+        });
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to submit application.');
+      }
+    } catch (err) {
+      setError('An error occurred while submitting your application.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!jobDetails) {
     return <div>Loading...</div>;
@@ -38,121 +114,196 @@ const JobApplicationForm = () => {
         </p>
       </div>
 
-      <div className="job-summary">
-        <h3>Job Summary</h3>
-        <p>{jobDetails.jobSummary}</p>
-      </div>
-
-      <div className="job-responsibilities">
-        <h3>Responsibilities:</h3>
-        <ul>
-          {jobDetails.responsibilities?.map((responsibility, index) => (
-            <li key={index}>{responsibility}</li>
-          )) || <li>No responsibilities provided.</li>}
-        </ul>
-      </div>
-
-      <div className="job-requirements">
-        <h3>Required Skills / Experience:</h3>
-        <ul>
-          {jobDetails.requiredSkills?.map((skill, index) => (
-            <li key={index}>{skill}</li>
-          )) || <li>No skills provided.</li>}
-        </ul>
-      </div>
-
       <div className="job-form">
         <h2>Apply for this job</h2>
-        <form>
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+        <form onSubmit={handleSubmit}>
+          {/* First Name */}
           <div className="form-group">
             <label>First Name *</label>
-            <input type="text" placeholder="Enter your first name" required />
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
+              placeholder="Enter your first name"
+              required
+            />
           </div>
 
+          {/* Last Name */}
           <div className="form-group">
             <label>Last Name *</label>
-            <input type="text" placeholder="Enter your last name" required />
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
+              placeholder="Enter your last name"
+              required
+            />
           </div>
 
+          {/* Email */}
           <div className="form-group">
             <label>Email *</label>
-            <input type="email" placeholder="Enter your email" required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Enter your email"
+              required
+            />
           </div>
 
+          {/* Phone Number */}
           <div className="form-group">
             <label>Phone Number *</label>
-            <input type="tel" placeholder="Enter your phone number" required />
+            <input
+              type="tel"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              placeholder="Enter your phone number"
+              required
+            />
           </div>
 
+          {/* Address */}
           <div className="form-group">
             <label>Address *</label>
-            <input type="text" placeholder="Enter your address" required />
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+              placeholder="Enter your address"
+              required
+            />
           </div>
 
+          {/* Educational Qualification */}
           <div className="form-group">
             <label>Educational Qualification *</label>
-            <select>
-              <option>Select Educational Qualification</option>
-              <option>Bachelor's</option>
-              <option>Master's</option>
-              <option>PhD</option>
+            <select
+              name="educationalQualification"
+              value={formData.educationalQualification}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Educational Qualification</option>
+              <option value="Bachelor's">Bachelor's</option>
+              <option value="Master's">Master's</option>
+              <option value="PhD">PhD</option>
             </select>
           </div>
 
+          {/* Previous Industry Experience */}
           <div className="form-group">
             <label>Previous Industry Experience *</label>
-            <select>
-              <option>Select Experience</option>
-              <option>Aviation</option>
-              <option>Manufacturing/Production</option>
-              <option>Technology</option>
-              <option>Mechanical</option>
-              <option>Agriculture</option>
+            <select
+              name="previousIndustryExperience"
+              value={formData.previousIndustryExperience}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Experience</option>
+              <option value="Aviation">Aviation</option>
+              <option value="Manufacturing/Production">Manufacturing/Production</option>
+              <option value="Technology">Technology</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="Agriculture">Agriculture</option>
             </select>
           </div>
 
+          {/* Preferred Job Location */}
           <div className="form-group">
             <label>Preferred Job Location *</label>
-            <select>
-              <option>Select Preferred Location</option>
-              <option>Lagos</option>
-              <option>Abuja</option>
-              <option>Port Harcourt</option>
+            <select
+              name="preferredLocation"
+              value={formData.preferredLocation}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Preferred Location</option>
+              <option value="Lagos">Lagos</option>
+              <option value="Abuja">Abuja</option>
+              <option value="Port Harcourt">Port Harcourt</option>
             </select>
           </div>
 
+          {/* Notice Period */}
           <div className="form-group">
-            <label>How Long Is Your Notice Period (Days) *</label>
-            <select>
-              <option>Select Notice Period</option>
-              <option>Immediate</option>
-              <option>30 Days</option>
-              <option>60 Days</option>
+            <label>Notice Period (Days) *</label>
+            <select
+              name="noticePeriodDays"
+              value={formData.noticePeriodDays}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Notice Period</option>
+              <option value="Immediate">Immediate</option>
+              <option value="30 Days">30 Days</option>
+              <option value="60 Days">60 Days</option>
             </select>
           </div>
 
+          {/* Years of Experience */}
           <div className="form-group">
             <label>Years Of Experience *</label>
-            <input type="number" placeholder="Enter years of experience" required />
+            <input
+              type="number"
+              name="yearsOfExperience"
+              value={formData.yearsOfExperience}
+              onChange={handleInputChange}
+              placeholder="Enter years of experience"
+              required
+            />
           </div>
 
+          {/* Salary Expectation */}
           <div className="form-group">
-            <label>Please Indicate Your Salary Expectation In NGN (Per Annum)</label>
-            <input type="number" placeholder="Enter salary expectation" />
+            <label>Salary Expectation (NGN per annum)</label>
+            <input
+              type="number"
+              name="salaryExpectation"
+              value={formData.salaryExpectation}
+              onChange={handleInputChange}
+              placeholder="Enter salary expectation"
+            />
           </div>
 
+          {/* Resume/CV */}
           <div className="form-group upload-section">
             <label>Resume / CV *</label>
-            <input type="file" accept=".pdf, .doc, .docx, .rtf" required />
+            <input
+              type="file"
+              name="resumeCv"
+              accept=".pdf, .doc, .docx, .rtf"
+              onChange={handleFileChange}
+              required
+            />
           </div>
 
+          {/* Cover Letter */}
           <div className="form-group upload-section">
             <label>Cover Letter *</label>
-            <input type="file" accept=".pdf, .doc, .docx, .rtf" required />
+            <input
+              type="file"
+              name="coverLetter"
+              accept=".pdf, .doc, .docx, .rtf"
+              onChange={handleFileChange}
+              required
+            />
           </div>
 
+          {/* Submit Button */}
           <div className="form-submit">
-            <button type="submit">SUBMIT</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'SUBMIT'}
+            </button>
           </div>
         </form>
       </div>

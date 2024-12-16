@@ -154,7 +154,7 @@ import { Link } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://danacareeerapi.onrender.com';
 const HRDashboard = () => {
   const [jobData, setJobData] = useState([]);
   const [applicationData, setApplicationData] = useState([]);

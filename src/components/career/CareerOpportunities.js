@@ -3,7 +3,7 @@ import './CareerOpportunities.css';
 import { Link } from 'react-router-dom';
 
 const getEndpoint = "/jobs"; 
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const CareerOpportunities = () => {
   const [jobs, setJobs] = useState([]);
