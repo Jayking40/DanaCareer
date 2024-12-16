@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './JobApplicationForm.css';
 import { useParams } from 'react-router-dom';
 
-const getEndpoint = "/jobs";
-const submitEndpoint = "/job-applications";
+const getEndpoint = "/jobs/getJob";
+const submitEndpoint = "/job-applications/apply";
 const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const JobApplicationForm = () => {

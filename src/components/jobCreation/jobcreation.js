@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './jobCreation.css';
 
-const jobEndpoint = "/jobs"; 
+const jobEndpoint = "/jobs/createJob"; 
 const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const JobCreation = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './CareerOpportunities.css';
 import { Link } from 'react-router-dom';
 
-const getEndpoint = "/jobs"; 
+const getEndpoint = "/jobs/getAllJobs"; 
 const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const CareerOpportunities = () => {
@@ -18,21 +18,32 @@ const CareerOpportunities = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`${baseUrl}${getEndpoint}`); 
+        const response = await fetch(`${baseUrl}${getEndpoint}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
         const data = await response.json();
-        setJobs(data);
-
-        const uniqueSubsidiaries = [...new Set(data.map((job) => job.company))];
-        const uniqueLocations = [...new Set(data.map((job) => job.location))];
+        console.log('Fetched Data:', data);
+        setJobs(Array.isArray(data) ? data : []);
+        
+        const uniqueSubsidiaries = Array.isArray(data)
+          ? [...new Set(data.map((job) => job.company))]
+          : [];
+        const uniqueLocations = Array.isArray(data)
+          ? [...new Set(data.map((job) => job.location))]
+          : [];
+          
         setSubsidiaries(uniqueSubsidiaries);
         setLocations(uniqueLocations);
       } catch (error) {
         console.error('Error fetching jobs:', error);
+        setJobs([]);
       }
     };
-
+  
     fetchJobs();
   }, []);
+  
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
