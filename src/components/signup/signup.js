@@ -114,9 +114,9 @@ const Signup = () => {
       </div>
 
       {/* Footer */}
-      <div className="footer">
+      {/* <div className="footer">
         <p>2024 &copy; Dana Group - HR Career Portal</p>
-      </div>
+      </div> */}
 
       {/* Popup for Log In
       {showPopup && (
