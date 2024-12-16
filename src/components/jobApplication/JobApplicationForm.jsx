@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const getEndpoint = "/jobs/getJob";
 const submitEndpoint = "/job-applications/apply";
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://danacareeerapi.onrender.com';
 
 const JobApplicationForm = () => {
   const { id } = useParams();

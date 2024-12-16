@@ -164,7 +164,7 @@ const HRDashboard = () => {
 
   const fetchJobData = async () => {
     try {
-      const response = await fetch(`${baseUrl}/jobs`);
+      const response = await fetch(`${baseUrl}/jobs/getAllJobs`);
       if (!response.ok) throw new Error("Failed to fetch job listings");
       const data = await response.json();
       setJobData(data);
@@ -177,7 +177,7 @@ const HRDashboard = () => {
 
   const fetchApplicationData = async () => {
     try {
-      const response = await fetch(`${baseUrl}/job-applications`);
+      const response = await fetch(`${baseUrl}/job-applications/getAllApplication`);
       if (!response.ok) throw new Error("Failed to fetch applications");
       const data = await response.json();
       setApplicationData(data);

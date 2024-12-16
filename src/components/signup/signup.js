@@ -6,48 +6,50 @@ const baseUrl = 'https://danacareeerapi.onrender.com';
 const endpoint = "/auth/register";
 
 const Signup = () => {
-    const [formData, setFormData] = useState({
-        fullName: "",
-        email: "",
-        phoneNumber: "",
-        password: ""
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault(); // Prevent default behavior to stop unwanted form submissions
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      const [isLoading, setIsLoading] = useState(false);
-      
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-      
+      const data = await response.json();
 
-      const handleSignup = async () => {
-        setIsLoading(true);
-        try {
-          const response = await fetch(`${baseUrl}${endpoint}`, {
-            method: "POST", 
-            headers: {
-              "Content-Type": "application/json", 
-            },
-            body: JSON.stringify(formData),
-          });
-      
-          const data = await response.json(); 
-      
-          if (response.ok) {
-            console.log("Signup successful:", data);
-            alert("Account created successfully!");
-          } else {
-            alert(data.message || "Failed to create an account. Please try again.");
-          }
-        } catch (error) {
-          console.error("Error during signup:", error);
-          alert("Failed to create an account. Please try again.");
-        } finally {
-          setIsLoading(false); 
-        }
-      };
-      
+      if (response.ok) {
+        console.log("Signup successful:", data);
+        alert("Account created successfully!");
+        // Optional: Redirect to login page after successful signup
+        window.location.href = "/login"; // Redirect to login page
+      } else {
+        console.error("Signup failed:", data);
+        alert(data.message || "Failed to create an account. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      alert("Failed to create an account. Please try again.");
+    } finally {
+      setIsLoading(false); // Stop the loading state
+    }
+  };
+
   return (
     <div className="container">
       {/* Header Logo */}
@@ -62,53 +64,51 @@ const Signup = () => {
       {/* Signup Section */}
       <div className="signup-section">
         <h2 className="portal-header">Create an Account</h2>
-        <div className="form-container">
-        <input
+        <form className="form-container" onSubmit={handleSignup}>
+          <input
             type="text"
             name="fullName"
             placeholder="Full Name"
             className="input-field"
             value={formData.fullName}
             onChange={handleChange}
-            />
-            <input
+          />
+          <input
             type="email"
             name="email"
             placeholder="Enter your email"
             className="input-field"
             value={formData.email}
             onChange={handleChange}
-            />
-            <input
+          />
+          <input
             type="text"
             name="phoneNumber"
             placeholder="Phone Number"
             className="input-field"
             value={formData.phoneNumber}
             onChange={handleChange}
-            />
-            <input
+          />
+          <input
             type="password"
             name="password"
             placeholder="Password"
             className="input-field"
             value={formData.password}
             onChange={handleChange}
-        />
+          />
 
-            <button className="signup-btn" onClick={handleSignup} disabled={isLoading}>
+          <button className="signup-btn" type="submit" disabled={isLoading}>
             {isLoading ? "Signing Up..." : "Sign Up"}
-            </button>
-        </div>
+          </button>
+        </form>
       </div>
 
       {/* Already have an account? */}
       <div className="create-account">
         <p>Already have an account?</p>
-        <Link to='/login'>
-            <button className="login-btn">
-            Log In
-            </button>
+        <Link to="/login">
+          <button className="login-btn">Log In</button>
         </Link>
       </div>
 
@@ -116,29 +116,6 @@ const Signup = () => {
       <div className="footer">
         <p>2024 &copy; Dana Group - HR Career Portal</p>
       </div>
-
-      {/* Popup for Log In
-      {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <h3>Log In</h3>
-            <input
-              type="email"
-              placeholder="Email"
-              className="popup-input"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="popup-input"
-            />
-            <button className="popup-btn">Submit</button>
-            <button className="popup-close" onClick={handlePopupToggle}>
-              Close
-            </button>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
