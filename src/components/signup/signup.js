@@ -20,13 +20,14 @@ const Signup = () => {
   };
 
   const handleSignup = async (e) => {
-    e.preventDefault(); // Prevent default behavior to stop unwanted form submissions
+    e.preventDefault();
     setIsLoading(true);
+
     try {
       const response = await fetch(`${baseUrl}${endpoint}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -34,13 +35,13 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Signup successful:", data);
-        alert("Account created successfully!");
-        // Optional: Redirect to login page after successful signup
-        window.location.href = "/login"; // Redirect to login page
+        console.log('Signup successful:', data);
+        alert('Account created successfully!');
+        // Redirect to the login page after successful signup
+        navigate('/login');
       } else {
-        console.error("Signup failed:", data);
-        alert(data.message || "Failed to create an account. Please try again.");
+        console.error('Signup failed:', data);
+        alert(data.message || 'Failed to create an account. Please try again.');
       }
     } catch (error) {
       console.error("Error during signup:", error);
