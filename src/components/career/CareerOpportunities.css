@@ -10,20 +10,20 @@
     background-color: #2b2d81;
     color: #ffffff;
     padding: 50px 0 0 ;
-    height: 180px;
+    height: 220px;
   }
   
   .career-header h1 {
     margin: 0;
     font-size: 50px;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 20px;
     letter-spacing: 0.1;
   }
   
   .career-header p {
-    margin: 10px 0 0;
+    margin: 6px 0 0;
     font-size: 13px;
   }
   
@@ -33,13 +33,14 @@
     justify-content: space-between;
     align-items: center;
     background-color: #f3d8d8;
-    width: 74%;
+    width: 85%;
     margin: 0 auto;
     padding: 10px 80px;
     height: 80px;
-    margin-top: -50px;
+    margin-top: -60px;
     border-radius: 10px;
     margin-bottom: 30px;
+    height: 140px;
   }
   
   .filter-section span {
@@ -93,12 +94,13 @@
     border: none;
     padding: 8px 12px;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   .join-team {
     background-color: #f2f2f2;
     text-align: left;
-    padding: 30px 100px;
+    padding: 50px 120px;
   }
   
   .header-container {

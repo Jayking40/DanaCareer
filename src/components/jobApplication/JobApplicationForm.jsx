@@ -1,49 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './JobApplicationForm.css';
+import { useParams } from 'react-router-dom';
+
+const getEndpoint = "/jobs"; 
+const baseUrl = 'http://localhost:5000';
 
 const JobApplicationForm = () => {
+  const { id } = useParams(); 
+  const [jobDetails, setJobDetails] = useState(null);
+
+
+  useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await fetch(`${baseUrl}${getEndpoint}/${id}`);
+        const data = await response.json();
+        setJobDetails(data);
+      } catch (error) {
+        console.error('Error fetching job details:', error);
+      }
+    };
+
+    fetchJobDetails();
+  }, [id]);
+
+  if (!jobDetails) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="job-application-container">
       <div className="job-header">
-        <h1>IT Officer- Full Stack Developer</h1>
-        <h3>Dana Group of Companies</h3>
+        <h1>{jobDetails.title}</h1>
+        <h3>{jobDetails.company}</h3>
         <p className="application-deadline">
-          Application Deadline: <strong>Wednesday 20th of November 2024</strong>
+          Application Deadline: <strong>{jobDetails.applicationDeadline}</strong>
         </p>
       </div>
 
       <div className="job-summary">
         <h3>Job Summary</h3>
-        <p>
-          The primary objective of this role is to leverage expertise in front-end and back-end technologies 
-          to design, develop, and maintain robust web applications while collaborating with cross-functional 
-          teams to deliver high-quality, scalable, and innovative solutions that meet business objectives and 
-          user needs.
-        </p>
+        <p>{jobDetails.jobSummary}</p>
       </div>
 
       <div className="job-responsibilities">
         <h3>Responsibilities:</h3>
         <ul>
-          <li>Design, develop, and maintain robust and user-friendly web applications.</li>
-          <li>
-            Create visually appealing and intuitive user interfaces using modern frontend technologies.
-          </li>
-          <li>Build scalable backend systems and APIs using server-side technologies.</li>
-          <li>Integrate third-party APIs and services as needed.</li>
-          <li>Provide technical assistance and support to PC users within the company.</li>
-          <li>Collaborate with cross-functional teams to understand their needs.</li>
+          {jobDetails.responsibilities?.map((responsibility, index) => (
+            <li key={index}>{responsibility}</li>
+          )) || <li>No responsibilities provided.</li>}
         </ul>
       </div>
 
       <div className="job-requirements">
         <h3>Required Skills / Experience:</h3>
         <ul>
-          <li>Bachelor's degree in Computer Science, Engineering, or an equivalent field.</li>
-          <li>Proven experience as a Full Stack Developer or similar role.</li>
-          <li>Proficiency in frontend and backend technologies.</li>
-          <li>Familiarity with cloud platforms, deployment strategies, and DevOps practices.</li>
-          <li>Strong communication and collaboration skills.</li>
+          {jobDetails.requiredSkills?.map((skill, index) => (
+            <li key={index}>{skill}</li>
+          )) || <li>No skills provided.</li>}
         </ul>
       </div>
 
@@ -129,12 +143,12 @@ const JobApplicationForm = () => {
 
           <div className="form-group upload-section">
             <label>Resume / CV *</label>
-            <input type="file" accept=".pdf, .doc, .docx, .rtf" />
+            <input type="file" accept=".pdf, .doc, .docx, .rtf" required />
           </div>
 
           <div className="form-group upload-section">
             <label>Cover Letter *</label>
-            <input type="file" accept=".pdf, .doc, .docx, .rtf" />
+            <input type="file" accept=".pdf, .doc, .docx, .rtf" required />
           </div>
 
           <div className="form-submit">

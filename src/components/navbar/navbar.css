@@ -112,10 +112,10 @@
     white-space: nowrap; 
   }
   
-  .login-btn {
+  .auth-buttons .login-btn {
     background-color: #2f3490;
     color: white;
-    width: 50px;
+    width: 50%;
     
   }
   
