@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./signup.css";
-import { Link, useNavigation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const baseUrl = 'https://danacareeerapi.onrender.com'; 
 const endpoint = "/auth/register";
@@ -13,7 +13,7 @@ const Signup = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigation();
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
