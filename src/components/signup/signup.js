@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./signup.css";
 import { Link } from "react-router-dom";
 
-const baseUrl = 'http://localhost:5000'; 
+const baseUrl = 'http://https://danacareeerapi.onrender.com'; 
 const endpoint = "/auth/register";
 
 const Signup = () => {
@@ -66,7 +66,7 @@ const Signup = () => {
         <div className="form-container">
         <input
             type="text"
-            name="fullName"
+            name="name"
             placeholder="Full Name"
             className="input-field"
             value={formData.name}
