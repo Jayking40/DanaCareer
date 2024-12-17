@@ -66,7 +66,7 @@ const Signup = () => {
         <div className="form-container">
         <input
             type="text"
-            name="fullName"
+            name="name"
             placeholder="Full Name"
             className="input-field"
             value={formData.name}
