@@ -1,0 +1,24 @@
+.hr-report {
+    background-color: #F0F0F0;
+    padding: 20px;
+  }
+  
+  .company-selector {
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .chart {
+    width: 45%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .chart h2 {
+    margin-bottom: 10px;
+  }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./signup.css";
 import { Link } from "react-router-dom";
 
-const baseUrl = 'http://https://danacareeerapi.onrender.com'; 
+const baseUrl = 'https://danacareeerapi.onrender.com'; 
 const endpoint = "/auth/register";
 
 const Signup = () => {
