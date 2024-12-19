@@ -114,6 +114,7 @@ const HRDashboard = () => {
           <Menu.Item key="4" icon={<PlusOutlined />}>
             <Link to="/job-creation">Create Job</Link>  {/* This links to the create job page */}
           </Menu.Item>
+          <Menu.Item key="2" icon={<FileTextOutlined />}><Link to="/excel">Manage Excel Sheet</Link></Menu.Item>
         </Menu>
       </Sider>
       <Layout>

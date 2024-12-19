@@ -11,7 +11,8 @@ import Signup from './components/signup/signup';
 import ProtectedRoute from './components/protectedRoute';
 import JobCreation from './components/jobCreation/jobcreation';
 import Analytics from './pages/dashboard/analytics/analytics';
-import HrReport from './pages/dashboard/charts/chart';
+import HRReport from './pages/dashboard/charts/chart';
+import ExcelManager from './pages/dashboard/Excel/excel';
 
 function App() {
   return (
@@ -28,8 +29,9 @@ function App() {
           />
           <Route path="/job-application/:id" element={<JobApplicationForm />} />
           <Route path="/job-creation" element={<JobCreation />} />
-          <Route path="/hr-report" element={<HrReport />} />
-          <Route path="/hr-analytics" element={<Analytics />} />
+          <Route path="/hr-analytics" element={<HRReport />} />
+          <Route path="/excel" element={<ExcelManager />} />
+          <Route path="/report" element={<Analytics />} />
           <Route path="/footer" element={<Footer />} />
         </Routes>
         <Footer />

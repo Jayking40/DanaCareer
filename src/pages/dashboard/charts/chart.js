@@ -1,75 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import "./chart.css"
+import 'chart.js/auto';
+import './chart.css';
 
-const HrReport = () => {
-  const [selectedCompany, setSelectedCompany] = useState('DPHL - LAGOS');
+const HRReport = () => {
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [companies, setCompanies] = useState([]);
+  const [attritionData, setAttritionData] = useState({});
+  const [employmentData, setEmploymentData] = useState({});
 
-  const companies = ['DPHL - LAGOS', 'Company B', 'Company C'];
+  useEffect(() => {
+    fetch('http://localhost:5000/hr-data/all-subsidiary-data')
+      .then((response) => response.json())
+      .then((data) => {
+        const uniqueCompanies = [...new Set(data.map((item) => item.Subsidiary))];
+        setCompanies(uniqueCompanies);
 
-  const attritionData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Attrition Rate',
-        data: [0, 4, 1.5, 0, 3, 4.5],
-        fill: false,
-        borderColor: '#5499C7',
-      },
-    ],
-  };
+        if (uniqueCompanies.length > 0) {
+          setSelectedCompany(uniqueCompanies[0]);
+        }
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
 
-  const employmentData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Employment Rate',
-        data: [4.5, 0, 1.5, 4, 1, 0],
-        fill: false,
-        borderColor: '#5499C7',
-      },
-    ],
-  };
+  useEffect(() => {
+    if (!selectedCompany) return;
 
-  const chartOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
-        min: 0,
-        max: 5,
-      },
-    },
-  };
+    fetch('http://localhost:5000/hr-data/all-subsidiary-data')
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredData = data.filter((item) => item.Subsidiary === selectedCompany);
+
+        const attritionChartData = {
+          labels: filteredData.map((item) => item.Month),
+          datasets: [
+            {
+              label: 'Attrition Rate',
+              data: filteredData.map((item) => item.Attrition),
+              borderColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderWidth: 2,
+              tension: 0.3,
+            },
+          ],
+        };
+
+        const employmentChartData = {
+          labels: filteredData.map((item) => item.Month),
+          datasets: [
+            {
+              label: 'Employment Rate',
+              data: filteredData.map((item) => item.Employment),
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderWidth: 2,
+              tension: 0.3,
+            },
+          ],
+        };
+
+        setAttritionData(attritionChartData);
+        setEmploymentData(employmentChartData);
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, [selectedCompany]);
 
   return (
-    <div className="hr-report">
+    <div className="hr-report-container">
       <h1>HR REPORT 2024</h1>
-      <div className="company-selector">
+      <div className="dropdown-container">
         <label htmlFor="company-select">Select Company:</label>
         <select
           id="company-select"
           value={selectedCompany}
           onChange={(e) => setSelectedCompany(e.target.value)}
         >
-          {companies.map((company) => (
-            <option key={company} value={company}>
+          {companies.map((company, index) => (
+            <option key={index} value={company}>
               {company}
             </option>
           ))}
         </select>
       </div>
-      <div className="chart-container">
-        <div className="chart">
+
+      {attritionData.labels ? (
+        <div className="chart-container">
           <h2>Attrition Rate Analysis - {selectedCompany}</h2>
-          <Line data={attritionData} options={chartOptions} />
+          <Line data={attritionData} />
         </div>
-        <div className="chart">
+      ) : (
+        <p>Loading attrition data...</p>
+      )}
+
+      {employmentData.labels ? (
+        <div className="chart-container">
           <h2>Employment Rate Analysis - {selectedCompany}</h2>
-          <Line data={employmentData} options={chartOptions} />
+          <Line data={employmentData} />
         </div>
-      </div>
+      ) : (
+        <p>Loading employment data...</p>
+      )}
     </div>
   );
 };
 
-export default HrReport;
+export default HRReport;
