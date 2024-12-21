@@ -64,30 +64,40 @@
   }
   
   /* Referrals Section */
-  .referrals-section h3 {
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .referrals {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px 0;
-  }
-  
-  .referral-item h2 {
-    color: #007bff;
-    margin: 0;
-  }
-  
-  .referral-item p {
-    margin: 5px 0 0;
-    color: #777;
-  }
+ /* Referrals Section */
+.referrals-section h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.referrals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+  gap: 20px; /* Space between items */
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.referral-item {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.referral-item h2 {
+  color: #007bff;
+  margin: 0;
+}
+
+.referral-item p {
+  margin: 5px 0 0;
+  color: #777;
+}
+
   
   /* Recent Activity */
 /* Recent Activity */
