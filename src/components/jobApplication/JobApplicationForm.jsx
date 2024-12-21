@@ -21,6 +21,7 @@ const JobApplicationForm = () => {
     noticePeriodDays: '',
     yearsOfExperience: '',
     salaryExpectation: '',
+    source: '',
     resumeCv: null,
     coverLetter: null,
   });
@@ -32,15 +33,23 @@ const JobApplicationForm = () => {
     const fetchJobDetails = async () => {
       try {
         const response = await fetch(`${baseUrl}${getEndpoint}/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch job details.');
+        }
         const data = await response.json();
-        setJobDetails(data);
+        if (data && typeof data === 'object') {
+          setJobDetails(data);
+        } else {
+          console.error('Invalid job details received:', data);
+        }
       } catch (error) {
         console.error('Error fetching job details:', error);
       }
     };
-
+  
     fetchJobDetails();
   }, [id]);
+  
 
   const fileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -104,6 +113,7 @@ const JobApplicationForm = () => {
           noticePeriodDays: '',
           yearsOfExperience: '',
           salaryExpectation: '',
+          source: '',
           resumeCv: null,
           coverLetter: null,
         });
@@ -131,6 +141,33 @@ const JobApplicationForm = () => {
         <p className="application-deadline">
           Application Deadline: <strong>{jobDetails.applicationDeadline}</strong>
         </p>
+      </div>
+
+      <div className="job-description">
+        <h2>Job Summary</h2>
+        <p>{jobDetails.jobSummary}</p>
+
+        <h2>Responsibilities</h2>
+          <ul>
+            {jobDetails.responsibilities?.length > 0 ? (
+              jobDetails.responsibilities.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))
+            ) : (
+              <li>No responsibilities provided.</li>
+            )}
+          </ul>
+
+          <h2>Required Skills / Experience</h2>
+          <ul>
+            {jobDetails.requiredSkills?.length > 0 ? (
+              jobDetails.requiredSkills.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))
+            ) : (
+              <li>No requirements provided.</li>
+            )}
+          </ul>
       </div>
 
       <div className="job-form">
@@ -292,6 +329,33 @@ const JobApplicationForm = () => {
               onChange={handleInputChange}
               placeholder="Enter salary expectation"
             />
+          </div>
+
+          {/* Referral Source */}
+          <div className="form-group">
+            <label>Referral Source *</label>
+            <select
+              name="source"
+              value={formData.source}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Referral Source</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Google">Google</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Indeed">Indeed</option>
+              <option value="Twitter">Twitter</option>
+              <option value="Company website">Company website</option>
+              <option value="Others">Others</option>
+              <option value="Telegram">Telegram</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="myjobmag">myjobmag</option>
+              <option value="Glassdoor">Glassdoor</option>
+              <option value="Jobgurus">Jobgurus</option>
+              <option value="Ngcareers">Ngcareers</option>
+              <option value="GrabJobs">GrabJobs</option>
+            </select>
           </div>
 
           {/* Resume/CV */}

@@ -32,8 +32,8 @@ const JobCreation = () => {
 
     const payload = {
       ...formData,
-      responsibilities: formData.responsibilities.split(','),
-      requiredSkills: formData.requiredSkills.split(','),
+      responsibilities: formData.responsibilities.split('.'),
+      requiredSkills: formData.requiredSkills.split('.'),
     };
 
     try {
@@ -126,7 +126,7 @@ const JobCreation = () => {
           ></textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="responsibilities">Responsibilities (comma-separated)</label>
+          <label htmlFor="responsibilities">Responsibilities (dot-separated)</label>
           <textarea
             id="responsibilities"
             name="responsibilities"
@@ -136,7 +136,7 @@ const JobCreation = () => {
           ></textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="requiredSkills">Required Skills (comma-separated)</label>
+          <label htmlFor="requiredSkills">Required Skills (dot-separated)</label>
           <textarea
             id="requiredSkills"
             name="requiredSkills"

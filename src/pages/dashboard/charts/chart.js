@@ -1,16 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
-import './chart.css';
+import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "./chart.css";
+
+// Register Chart.js components
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const HRReport = () => {
-  const [selectedCompany, setSelectedCompany] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState("");
   const [companies, setCompanies] = useState([]);
   const [attritionData, setAttritionData] = useState({});
   const [employmentData, setEmploymentData] = useState({});
 
   useEffect(() => {
-    fetch('http://localhost:5000/hr-data/all-subsidiary-data')
+    fetch("https://danacareeerapi.onrender.com/hr-data/all-subsidiary-data")
       .then((response) => response.json())
       .then((data) => {
         const uniqueCompanies = [...new Set(data.map((item) => item.Subsidiary))];
@@ -20,25 +40,27 @@ const HRReport = () => {
           setSelectedCompany(uniqueCompanies[0]);
         }
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   useEffect(() => {
     if (!selectedCompany) return;
 
-    fetch('http://localhost:5000/hr-data/all-subsidiary-data')
+    fetch("https://danacareeerapi.onrender.com/hr-data/all-subsidiary-data")
       .then((response) => response.json())
       .then((data) => {
-        const filteredData = data.filter((item) => item.Subsidiary === selectedCompany);
+        const filteredData = data.filter(
+          (item) => item.Subsidiary === selectedCompany
+        );
 
         const attritionChartData = {
           labels: filteredData.map((item) => item.Month),
           datasets: [
             {
-              label: 'Attrition Rate',
+              label: "Attrition Rate",
               data: filteredData.map((item) => item.Attrition),
-              borderColor: 'rgba(54, 162, 235, 1)',
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: "rgba(54, 162, 235, 1)",
+              backgroundColor: "rgba(54, 162, 235, 0.2)",
               borderWidth: 2,
               tension: 0.3,
             },
@@ -49,10 +71,10 @@ const HRReport = () => {
           labels: filteredData.map((item) => item.Month),
           datasets: [
             {
-              label: 'Employment Rate',
+              label: "Employment Rate",
               data: filteredData.map((item) => item.Employment),
-              borderColor: 'rgba(255, 99, 132, 1)',
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: "rgba(255, 99, 132, 1)",
+              backgroundColor: "rgba(255, 99, 132, 0.2)",
               borderWidth: 2,
               tension: 0.3,
             },
@@ -62,7 +84,7 @@ const HRReport = () => {
         setAttritionData(attritionChartData);
         setEmploymentData(employmentChartData);
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => console.error("Error fetching data:", error));
   }, [selectedCompany]);
 
   return (

@@ -6,7 +6,7 @@ const ExcelManager = () => {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch('http://localhost:5000/hr-data/download', {
+      const response = await fetch('https://danacareeerapi.onrender.com/hr-data/download', {
         method: 'GET',
       });
       if (!response.ok) {
@@ -39,7 +39,7 @@ const ExcelManager = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/hr-data/upload', {
+      const response = await fetch('https://danacareeerapi.onrender.com/hr-data/upload', {
         method: 'POST',
         body: formData,
       });
