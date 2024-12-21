@@ -70,32 +70,41 @@
   }
   
   /* Job Listings */
-  .job-listings {
-    margin: 0 auto;
-    width: 85%;
-  }
-  
-  .job-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* border-bottom: 1px solid #ccc; */
-    padding: 15px 0;
-  }
-  
-  .job-item.highlight {
-    background-color: #2b2d81;
-    color: white;
-  }
-  
-  .job-item .apply-button {
-    background-color: #2b2d81;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
+/* Job Listings */
+.job-listings {
+  margin: 0 auto;
+  width: 85%;
+}
+
+.job-item {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr 1fr;
+  align-items: center;
+  gap: 20px; /* Adds spacing between columns */
+  padding: 15px 0;
+  border-bottom: 1px solid #ccc; /* Optional: Add a divider between job items */
+}
+
+.job-item .job-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.job-item .job-company,
+.job-item .job-location {
+  color: #555;
+}
+
+.job-item .apply-button {
+  background-color: #2b2d81;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
   
   .join-team {
     background-color: #f2f2f2;
